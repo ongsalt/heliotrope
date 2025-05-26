@@ -1,20 +1,29 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { router } from "@heliotrope/server";
+import { RPCHandler } from '@orpc/server/fetch';
+import { CORSPlugin } from '@orpc/server/plugins';
 
-const handler = {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
-	},
+const handler = new RPCHandler(router, {
+	plugins: [
+		new CORSPlugin()
+	]
+});
+
+export default {
+	async fetch(request, env, ctx) {
+		const { matched, response } = await handler.handle(request, {
+			prefix: '/rpc',
+			context: {
+				env: {
+					DB_URL: ""
+				},
+				headers: request.headers
+			}
+		});
+
+		if (matched) {
+			return response;
+		}
+
+		return new Response('Not found', { status: 404 });
+	}
 } satisfies ExportedHandler<Env>;
-
-export type A = "shasnfbhy"

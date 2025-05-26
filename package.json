@@ -9,7 +9,14 @@
     "packages/*",
     "apps/*"
   ],
-  "keywords": [],
+  "keywords": [
+    
+  ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }
