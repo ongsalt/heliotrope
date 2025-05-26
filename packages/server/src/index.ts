@@ -6,7 +6,14 @@ const Image = type({
 	createdAd: "Date",
 });
 
-const base = os.$context<{ headers: Headers, env: { DB_URL: string } }>()
+interface S3Client { } // common s3 interface for cf r2
+interface Context {
+	headers: Headers;
+	env: { DB_URL: string; };
+	s3: S3Client;
+}
+
+const base = os.$context<Context>();
 
 const addImage = base
 	.input(Image)
