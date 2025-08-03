@@ -1,6 +1,6 @@
 import type { Component, ComponentProps, ComponentType, SvelteComponent } from "svelte";
 import { render as _render } from "svelte/server";
-import shell from "$web/index.html" with { type: "text" };
+import shell from "$build/web/index.html" with { type: "text" };
 
 export function withShell(sections: Record<string, string>) {
   let template = shell as any as string;
