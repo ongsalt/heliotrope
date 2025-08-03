@@ -1,1 +1,0 @@
-export const dev = Bun.env.NODE_ENV !== "production";
