@@ -1,6 +1,10 @@
 import type { Component, ComponentProps, ComponentType, SvelteComponent } from "svelte";
 import { render as _render } from "svelte/server";
-import shell from "$build/web/index.html" with { type: "text" };
+import { join } from "node:path";
+// import shell from "$build/web/index.html" with { type: "text" };
+
+const root = join(import.meta.dir, "../../../");
+const shell = await Bun.file(join(root, "build/web/index.html")).text();
 
 export function withShell(sections: Record<string, string>) {
   let template = shell as any as string;
@@ -34,7 +38,7 @@ export function render<
     ]
 ) {
   const output = _render(...(args as [any, any]));
-  
+
   return withShell({
     head: output.head,
     body: output.body
