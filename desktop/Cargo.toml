@@ -4,5 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+directories = "6.0.0"
 freya = "0.4.0"
 shared = { path = "../shared" }
+
+[target.'cfg(windows)'.dependencies]
+windows = "0.62.2"

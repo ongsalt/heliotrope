@@ -1,14 +1,14 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+use std::sync::Arc;
+
+pub struct Peer {}
+
+pub trait Discovery {
+    fn start(&self, listener: Arc<dyn PeerListener>);
+    fn advertise(&self, name: String);
+    fn stop(&self);
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub trait PeerListener {
+    fn on_found(&self, peer: Peer);
+    fn on_lost(&self, peer_id: String);
 }
